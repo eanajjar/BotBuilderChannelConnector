@@ -87,7 +87,15 @@ namespace Bot.Builder.ChannelConnector.Facebook
                         },
                         Message = new FacebookOutboundMessage
                         {
-                            Text = activity.Text
+                            Text = activity.Text,
+                            QuickReplies = activity.SuggestedActions?.Actions
+                                .Select(q => new FacebookQuickReply
+                                {
+                                    ContentType = "text",
+                                    Title = q.Title,
+                                    Payload = q.Value.ToString()
+                                })
+                                .ToList()
                         }
                     };
                 }
